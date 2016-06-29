@@ -133,17 +133,31 @@ public class ToDoListFrame extends JFrame {
         String br = System.getProperty("line.separator");
         String tmp = "" ;
         DefaultListModel<String> model = (DefaultListModel<String>) listToDo.getModel() ;
+        BufferedWriter bw = new BufferedWriter(out);
 
+        try {
+            bw.write("");
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this, "Fehler beim speichern der Liste.", "Fehler", JOptionPane.ERROR_MESSAGE);
+            return false ;
+        }
 
         for(int i = 0; i < model.getSize(); i++){
-            tmp = (String) model.getElementAt(i) ;
+            tmp = model.getElementAt(i) ;
             try {
-                out.write(tmp) ;
-                out.write(br) ;
+                bw.append(tmp) ;
+                bw.append(br) ;
             }catch(Exception e){
                 JOptionPane.showMessageDialog(this, "Fehler beim speichern der Liste.", "Fehler", JOptionPane.ERROR_MESSAGE);
                 return false ;
             }
+        }
+
+        try {
+            bw.flush();
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(this, "Fehler beim speichern der Liste.", "Fehler", JOptionPane.ERROR_MESSAGE);
+            return false ;
         }
 
         return true ;
