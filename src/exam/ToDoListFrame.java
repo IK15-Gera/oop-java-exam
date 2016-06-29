@@ -203,9 +203,7 @@ public class ToDoListFrame extends JFrame {
         DefaultListModel<String> model = (DefaultListModel<String>)listToDo.getModel();
         int index = listToDo.getSelectedIndex();
         if (index == -1) {
-            int oldSize = model.getSize() ;
-            model.setSize(oldSize+1);
-            model.add(oldSize, inputToDo.getText());
+            model.addElement(inputToDo.getText());
         } else {
             model.add(index, inputToDo.getText());
         }
