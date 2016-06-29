@@ -159,5 +159,8 @@ public class ToDoListFrame extends JFrame {
         } else {
             model.add(index, inputToDo.getText());
         }
+
+        inputToDo.setText("");
+        inputToDo.requestFocus(true) ;
     }
 }
