@@ -2,6 +2,8 @@ package exam;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.*;
 
 /**
@@ -23,22 +25,41 @@ public class ToDoListFrame extends JFrame {
 
         JPanel buttonPanel = new JPanel(new FlowLayout()) ;
         buttonAdd = new JButton("Hinzufügen") ;
+        buttonAdd.addActionListener(e -> add());
 
         buttonDelete = new JButton("Erledigt") ;
+        buttonDelete.addActionListener(e -> delete());
 
         buttonDeleteAll = new JButton("Liste löschen") ;
+        buttonDeleteAll.addActionListener(e -> deleteAll());
+
         buttonPanel.add(buttonDeleteAll) ;
         buttonPanel.add(buttonDelete) ;
         buttonPanel.add(buttonAdd) ;
         content.add(buttonPanel, BorderLayout.SOUTH) ;
 
-        JScrollPane listScrollPane = new JScrollPane() ;
-        listToDo = new JList() ;
-        listScrollPane.add(listToDo) ;
+        listToDo = new JList<>(new DefaultListModel<>()) ;
+        listToDo.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        listToDo.addKeyListener(new KeyAdapter(){
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                if (e.getKeyCode() == KeyEvent.VK_DELETE)
+                    delete();
+            }
+        });
+        JScrollPane listScrollPane = new JScrollPane(listToDo) ;
         content.add(listScrollPane, BorderLayout.CENTER) ;
 
         inputToDo = new JTextField() ;
-        inputToDo.setText("Aufgabe eingeben...") ;
+        inputToDo.addKeyListener(new KeyAdapter(){
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                if (e.getKeyCode() == KeyEvent.VK_ENTER)
+                    add();
+            }
+        });
         content.add(inputToDo, BorderLayout.NORTH) ;
 
         this.setSize(350, 300) ;
@@ -128,11 +149,13 @@ public class ToDoListFrame extends JFrame {
 
     }
 
-    private void addEntry() {
+    private void add() {
         DefaultListModel<String> model = (DefaultListModel<String>)listToDo.getModel();
         int index = listToDo.getSelectedIndex();
         if (index == -1) {
-            model.add(model.getSize() + 1, inputToDo.getText());
+            int oldSize = model.getSize() ;
+            model.setSize(oldSize+1);
+            model.add(oldSize, inputToDo.getText());
         } else {
             model.add(index, inputToDo.getText());
         }
