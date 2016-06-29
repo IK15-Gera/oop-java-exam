@@ -46,6 +46,18 @@ public class ToDoListFrame extends JFrame {
         this.setVisible(true);
     }
 
+    private void deleteAll() {
+        DefaultListModel<String> model = (DefaultListModel<String>)listToDo.getModel();
+        model.removeAllElements();
+    }
+
+    private void delete() {
+        DefaultListModel<String> model = (DefaultListModel<String>)listToDo.getModel();
+        if (listToDo.getSelectedIndex() != -1) {
+            model.remove(listToDo.getSelectedIndex());
+        }
+    }
+
     public boolean saveList() {
         return this.saveList("") ;
     }
@@ -83,7 +95,7 @@ public class ToDoListFrame extends JFrame {
     }
 
     public boolean loadList() {
-        return this.saveList("") ;
+        return this.loadList("") ;
     }
 
     public boolean loadList(String path) {
@@ -99,19 +111,30 @@ public class ToDoListFrame extends JFrame {
         }
 
         // Newline operator
-        String tmp = "" ;
+        String tmp ;
         DefaultListModel<String> model = (DefaultListModel<String>) listToDo.getModel() ;
 
-        model.removeAllElements() ;
+        this.deleteAll() ;
         try {
             while ((tmp = in.readLine()) != null) {
                 model.addElement(tmp) ;
             }
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Fehler beim lesen der Liste.", "Fehler", JOptionPane.ERROR_MESSAGE);
+            return false ;
         }
 
         return true ;
 
+    }
+
+    private void addEntry() {
+        DefaultListModel<String> model = (DefaultListModel<String>)listToDo.getModel();
+        int index = listToDo.getSelectedIndex();
+        if (index == -1) {
+            model.add(model.getSize() + 1, inputToDo.getText());
+        } else {
+            model.add(index, inputToDo.getText());
+        }
     }
 }
