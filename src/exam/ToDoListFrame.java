@@ -81,6 +81,11 @@ public class ToDoListFrame extends JFrame {
                 System.exit(0);
             }
         } );
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+                this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
+            return false;
+        });
 
         int confirm = JOptionPane.showOptionDialog(
                 null, "Gespeicherte ToDo laden?",
@@ -125,9 +130,9 @@ public class ToDoListFrame extends JFrame {
         }
 
         // Newline operator
-        String br = System.getProperty("line.separator"); ;
+        String br = System.getProperty("line.separator");
         String tmp = "" ;
-        ListModel model = listToDo.getModel() ;
+        DefaultListModel<String> model = (DefaultListModel<String>) listToDo.getModel() ;
 
 
         for(int i = 0; i < model.getSize(); i++){
