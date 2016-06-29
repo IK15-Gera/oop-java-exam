@@ -47,11 +47,18 @@ public class ToDoListFrame2 extends JFrame {
 
     private void delete() {
         DefaultListModel<String> model = (DefaultListModel<String>)listToDo.getModel();
-        model.remove(listToDo.getSelectedIndex());
+        if (listToDo.getSelectedIndex() != -1) {
+            model.remove(listToDo.getSelectedIndex());
+        }
     }
 
     private void addEntry() {
         DefaultListModel<String> model = (DefaultListModel<String>)listToDo.getModel();
-        model.add(model.getSize() + 1, inputToDo.getText());
+        int index = listToDo.getSelectedIndex();
+        if (index == -1) {
+            model.add(model.getSize() + 1, inputToDo.getText());
+        } else {
+            model.add(index, inputToDo.getText());
+        }
     }
 }
