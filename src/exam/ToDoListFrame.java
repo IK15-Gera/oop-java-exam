@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
 
 /**
@@ -63,7 +65,32 @@ public class ToDoListFrame extends JFrame {
         content.add(inputToDo, BorderLayout.NORTH) ;
 
         this.setSize(350, 300) ;
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                int confirm = JOptionPane.showOptionDialog(
+                        null, "ToDo speichern vor dem Schließen?",
+                        "Speichern?", JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+                if (confirm == 0) {
+                    saveList() ;
+                }
+
+                System.exit(0);
+            }
+        } );
+
+        int confirm = JOptionPane.showOptionDialog(
+                null, "Gespeicherte ToDo laden?",
+                "Laden?", JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE, null, null, null);
+
+        if (confirm == 0) {
+            loadList() ;
+        }
+
         this.setVisible(true);
     }
 
@@ -76,6 +103,8 @@ public class ToDoListFrame extends JFrame {
         DefaultListModel<String> model = (DefaultListModel<String>)listToDo.getModel();
         if (listToDo.getSelectedIndex() != -1) {
             model.remove(listToDo.getSelectedIndex());
+        }else{
+            JOptionPane.showMessageDialog(this, "Bitte wählen sie einen Eintrag aus!", "Eintrag auswählen", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -138,7 +167,9 @@ public class ToDoListFrame extends JFrame {
         this.deleteAll() ;
         try {
             while ((tmp = in.readLine()) != null) {
-                model.addElement(tmp) ;
+                if(!tmp.equals("") && !tmp.equals(" ")) {
+                    model.addElement(tmp);
+                }
             }
         }catch(Exception e){
             JOptionPane.showMessageDialog(this, "Fehler beim lesen der Liste.", "Fehler", JOptionPane.ERROR_MESSAGE);
