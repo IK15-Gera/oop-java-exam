@@ -2,6 +2,8 @@ package exam;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * Created by fricke on 29.06.2016.
@@ -35,6 +37,14 @@ public class ToDoListFrame2 extends JFrame {
         buttonPanel.add(buttonAdd) ;
 
         listToDo = new JList<>(new DefaultListModel<>()) ;
+        listToDo.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                if (e.getKeyCode() == KeyEvent.VK_DELETE)
+                    delete();
+            }
+        });
 
         inputToDo = new JTextField() ;
         inputToDo.setText("Aufgabe eingeben...") ;
