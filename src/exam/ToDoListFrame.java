@@ -20,10 +20,19 @@ public class ToDoListFrame extends JFrame {
     public ToDoListFrame(){
         content = this.getContentPane() ;
 
+        JPanel buttonPanel = new JPanel(new FlowLayout()) ;
         buttonAdd = new JButton("Hinzufügen") ;
 
         buttonDelete = new JButton("Erledigt") ;
 
         buttonDeleteAll = new JButton("Liste löschen") ;
+        buttonPanel.add(buttonDeleteAll) ;
+        buttonPanel.add(buttonDelete) ;
+        buttonPanel.add(buttonAdd) ;
+
+        listToDo = new JList() ;
+
+        inputToDo = new JTextField() ;
+        inputToDo.setText("Aufgabe eingeben...") ;
     }
 }
