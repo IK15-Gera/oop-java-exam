@@ -48,6 +48,12 @@ public class ToDoListFrame2 extends JFrame {
 
         inputToDo = new JTextField() ;
         inputToDo.setText("Aufgabe eingeben...") ;
+
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE)
+                ;
+            return false;
+        });
     }
 
     private void deleteAll() {
