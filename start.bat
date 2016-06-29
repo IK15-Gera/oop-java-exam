@@ -1,0 +1,1 @@
+java.exe -jar out/artifacts/oop_java_exam_jar/oop-java-exam.jar

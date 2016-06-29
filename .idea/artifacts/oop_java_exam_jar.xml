@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="oop-java-exam:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/oop_java_exam_jar</output-path>
+    <root id="archive" name="oop-java-exam.jar">
+      <element id="module-output" name="oop-java-exam" />
+    </root>
+  </artifact>
+</component>
